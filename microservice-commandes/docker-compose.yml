@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  microservice_commande_app:
+    container_name: microservice_commande_app
+    image: commande_app
+    build: .
+    ports:
+      - 8083:8083
+    environment:
+      - DATABASE_URL=jdbc:postgresql://microservice_commande_app_db:5432/commande_db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - microservice_commande_app_db
+
+  microservice_commande_app_db:
+    container_name: microservice_commande_app_db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: commande_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}

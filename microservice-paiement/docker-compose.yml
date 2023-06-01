@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  microservice_paiement_app:
+    container_name: microservice_paiement_app
+    image: paiement_app
+    build: .
+    ports:
+      - 8082:8082
+    environment:
+      - DATABASE_URL=jdbc:postgresql://microservice_paiement_app_db:5432/paiement_db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - microservice_paiement_app_db
+
+  microservice_paiement_app_db:
+    container_name: microservice_paiement_app_db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: paiement_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}

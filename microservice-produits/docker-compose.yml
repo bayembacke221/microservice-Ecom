@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  microservice_product_app:
+    container_name: microservice_product_app
+    image: product_app
+    build: .
+    ports:
+      - 8081:8081
+    environment:
+      - DATABASE_URL=jdbc:postgresql://microservice_product_app_db:5432/product_db
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - microservice_product_app_db
+
+  microservice_product_app_db:
+    container_name: microservice_product_app_db
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: product_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
