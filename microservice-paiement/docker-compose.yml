@@ -6,7 +6,7 @@ services:
     image: paiement_app
     build: .
     ports:
-      - 8082:8082
+      - 8085:8085
     environment:
       - DATABASE_URL=jdbc:postgresql://microservice_paiement_app_db:5432/paiement_db
       - DATABASE_USERNAME=postgres
